@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <title>Employees System</title>
+        <link rel="shortcut icon" href="images/test.png" type="image/x-icon">
+        <link rel="stylesheet" href="css/all.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <section class="py-5 col-md-10 m-auto">
+            <div class="container-fluid">
+                <div class="app_head">
+                    <h1><i class="fas fa-users text-w"></i>Employees System :</h1>
+                    <hr />
+                </div>
+                <div class="container-fluid control_panel py-5">
+                    <div class="container">
+                        <h3 class="text-center mb-5">Add New Employee</h3>
+                        <div class="form-group">
+                            <label>Empoloyee Name : </label>
+                            <input type="text" id="emp_name" class="form-control add_input" placeholder="Type Employee Name"/>
+                            <div class="alert mt-2 alert-danger form_alert">
+                                <div class="input_len"><i class="far fa-keyboard mr-2"></i>letters : <span></span></div>
+                                <i class="fas fa-exclamation-circle mr-2"></i>Sorry employee name must contain letters only and between 4 - 30 letter
+                            </div>
+                            <div class="alert mt-2 alert-danger form_alert_repeat">
+                                <i class="fas fa-exclamation-circle mr-2"></i>Sorry this name is already exist
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Empoloyee Age : </label>
+                                <input type="number" id="emp_age" class="form-control add_input" placeholder="Type Employee Age"/>
+                                <div class="alert mt-2 alert-danger form_alert">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>Sorry employee age must between 20 - 60 year
+                                </div>    
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Empoloyee Phone : </label>
+                                <input type="text" id="emp_phone" class="form-control add_input" placeholder="Type Employee Phone"/>
+                                <div class="alert mt-2 alert-danger form_alert">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>Sorry employee phone number must be egyptian
+                                </div>    
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Empoloyee Salary : </label>
+                                <input  type="number" id="emp_salary" class="form-control add_input" placeholder="Type Employee Salary"/>
+                                <div class="alert mt-2 alert-danger form_alert">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>Sorry employee salary must between 2000 - 10000 
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Empoloyee Title : </label>
+                            <input id="emp_title" class="form-control add_input" placeholder="Type Employee Title" />
+                            <div class="alert mt-2 alert-danger form_alert">
+                                <div class="input_len"><i class="far fa-keyboard mr-2"></i>letters : <span></span></div>
+                                <i class="fas fa-exclamation-circle mr-2"></i>Sorry employee title must contain letters only and between 4 - 20 letter
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>Employee Gender :</label>
+                            </div>
+                            <div class="form-group mb-0">
+                                <input type="radio" name="gender" value="male" id="male" />
+                                <label for="male">Male</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" name="gender" value="female" id="female" />
+                                <label for="female" class="pointer-event">Female</label>
+                            </div>
+                            <div class="alert mt-2 alert-danger form_alert">
+                                <i class="fas fa-exclamation-circle mr-2"></i>Sorry you must choose gender of employee
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-success mr-3" id="add_emp"><i class="fas fa-plus-circle mr-2"></i> Add Employee </button>
+                            <button class="btn btn-primary mr-3" id="edit_emp"><i class="far fa-edit mr-2"></i> Edit Employee </button>
+                            <button class="btn btn-light" id="cancel_edit_emp"><i class="fas fa-undo mr-2"></i> Cancel </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid emps_data pt-5 p-0">
+                    <div class="data">
+                        <div class="serach_hd mb-3">
+                            <div class="d-flex align-items-center">
+                                <h3 class="mb-3 mr-3">Employees Data : </h3>
+                                <div class="system d-flex">
+                                    <div class="grid_system_show mr-1 border p-2 rounded bg-primary text-white">
+                                        <i class="fas fa-th fa-lg"></i>
+                                        <span class="ml-1">Grid</span>
+                                    </div>
+                                    <div class="list_system_show border p-2 rounded">
+                                        <i class="fas fa-list fa-lg"></i>
+                                        <span class="ml-1">List</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control col-md-4 col-6 search_input" placeholder="Search By Name" />
+                        </div>
+                        <div class="employeesData">
+                            <h3 class="no_data">No Data To Display!</h3>
+                        </div>                  
+                    </div>
+                </div>
+                <div class="pagination mt-3">
+                </div>
+                <div class="pagination_search mt-3">
+                </div>
+                <div class="delete_emp_control">
+                    <div class="alert alert-danger py-3 px-5 text-center">
+                        <p class="text-capitalize">are you sure you want to delete employee " <span class="deleted_emp_name"></span> " ?</p>
+                        <button class="btn btn-danger mr-2" id="delete_emp"><i class="far fa-trash-alt mr-2"></i>Delete</button>
+                        <button class="btn btn-light" id="cancel_delete_emp"><i class="fas fa-undo mr-2"></i> Cancel </button>
+                    </div>
+                </div>
+                <div class="app_footer">
+                    <hr />
+                    <p>&copy; <span class="app_year"></span> Employees Control.</p>
+                </div>
+            </div>
+        </section>
+        <div class="notify">
+            <span>Employee Added</span>
+            <i class="far fa-times-circle ml-3"></i>
+        </div>
+        <div class="undo_dlete bg-success">
+            <span class="p-3"><i class="fas fa-undo mr-2 border-0"></i>Undo</span>
+            <i class="far fa-times-circle p-3 cancel_undo"></i>
+        </div>
+        
+        <script src="js/main.js"></script>
+    </body>
+</html>
