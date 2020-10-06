@@ -11,7 +11,8 @@ let empName = document.getElementById('emp_name'),
     systemMessage = 'grid',
     controls = document.querySelector('.pagination'),
     maxPageNo=1,
-    searchControls = document.querySelector('.pagination_search');
+    searchControls = document.querySelector('.pagination_search'),
+    alertRepeat = document.querySelector('.form_alert_repeat');
 
 
 //========= check local storage =========
@@ -77,8 +78,9 @@ function gridSystem(pageNo) {
                     <p>Salary : ${allEmployees[i].salary}</p>
                     <p>Date Added : ${allEmployees[i].addedDate}</p>
                     <div class="mt-3 text-center">
-                    <button class="btn btn-primary" onClick="editEmployee(${allEmployees[i].id})"><i class="far fa-edit mr-2"></i>Edit</button>
-                    <button class="btn btn-danger ml-2" onClick="deleteEmployee(${allEmployees[i].id})"><i class="far fa-trash-alt mr-2"></i>Delete</button>      
+                    <button class="btn btn-info p-0"><a class="p-2 d-block text-decoration-none text-white" href="empDetails.html?empId=${allEmployees[i].id}"><i class="far fa-file-alt mr-2"></i>Info</a></button>
+                    <button class="btn btn-primary mx-2" onClick="editEmployee(${allEmployees[i].id})"><i class="far fa-edit mr-2"></i>Edit</button>
+                    <button class="btn btn-danger" onClick="deleteEmployee(${allEmployees[i].id})"><i class="far fa-trash-alt mr-2"></i>Delete</button>      
                 </div>
                 </div>
             </div>
@@ -109,8 +111,9 @@ function listSystem(pageNo) {
                     <td>${allEmployees[i].gender}</td>
                     <td>${allEmployees[i].addedDate}</td>
                     <td>
-                        <button class="btn btn-primary" onClick="editEmployee(${allEmployees[i].id})"><i class="far fa-edit mr-2"></i>Edit</button>
-                        <button class="btn btn-danger ml-2" onClick="deleteEmployee(${allEmployees[i].id})"><i class="far fa-trash-alt mr-2"></i>Delete</button>      
+                        <button class="btn btn-info p-0"><a class="p-2 d-block text-decoration-none text-white" href="empDetails.html?empId=${allEmployees[i].id}"><i class="far fa-file-alt mr-2"></i>Info</a></button>
+                        <button class="btn btn-primary mx-2" onClick="editEmployee(${allEmployees[i].id})"><i class="far fa-edit mr-2"></i>Edit</button>
+                        <button class="btn btn-danger" onClick="deleteEmployee(${allEmployees[i].id})"><i class="far fa-trash-alt mr-2"></i>Delete</button>      
                     </td>
                 </tr>`
     }
@@ -139,7 +142,8 @@ function listSystem(pageNo) {
 let addEmpBtn = document.getElementById('add_emp');
 addEmpBtn.addEventListener('click',addEmployee)
 function addEmployee() {
-    if (validBtn()) {
+    if (validBtn()&&validateReData()) {
+        alertRepeat.style.display = 'none';
         sortId(maxPageNo);
         let newEmp = {
             id: allEmployees.length > 0 ? allEmployees[allEmployees.length - 1].id + 1 : 1,
@@ -204,10 +208,11 @@ cancelEditBtn.addEventListener('click', () => {
     cancelEditBtn.style.display = 'none';
 })
 confirmEditBtn.addEventListener('click', () => {
-    if (validBtn()) {
+    if (validBtn()&&reDataForEdit()) {
         addEmpBtn.style.display = 'inline-block';
         confirmEditBtn.style.display = 'none';
         cancelEditBtn.style.display = 'none';
+        alertRepeat.style.display = 'none';
         editedEmp.name = empName.value;
         editedEmp.age = empAge.value;
         editedEmp.phone = empPhone.value;
@@ -227,7 +232,15 @@ confirmEditBtn.addEventListener('click', () => {
         displayData(editedIndexPage);
     }
 })
-
+function reDataForEdit(){
+    for (let i = 0; i < allEmployees.length; i++){
+        if (allEmployees[i].name.toUpperCase() == allInputs[0].value.toUpperCase()&&empEditId!=allEmployees[i].id){
+            alertRepeat.style.display = 'block';
+            return false;
+        }
+    }
+    return true;
+}
 //============ delete employee =============
 
 let deleteControls = document.querySelector('.delete_emp_control'),
@@ -303,9 +316,8 @@ undoDeleteBtn.addEventListener('click',()=>{
 let allInputs = Array.from(document.querySelectorAll('.add_input')),
     alerts = Array.from(document.querySelectorAll('.form_alert')),
     inputLen = Array.from(document.querySelectorAll('.form_alert .input_len span')),
-    alertRepeat = document.querySelector('.form_alert_repeat'),
                     //empName         -         empAge       -           empPhone        -         empSalary           -      empTitle
-    validArray = [/^[a-zA-Z ]{4,30}$/,/^[2-5]{1}[0-9]{1}$|60$/,/^(002)?01[0125][0-9]{8}$/,/^[2-9]{1}[0-9]{3}$|10000$/,/^[a-zA-Z ]{4,20}$/];
+    validArray = [/^[a-zA-Z ]{4,30}$/,/^[2-5][0-9]{1}$|60$/,/^(002)?01[0125][0-9]{8}$/,/^[2-9][0-9]{3}$|10000$/,/^[a-zA-Z ]{4,20}$/];
 
 for (let i = 0; i < allInputs.length; i++) {
     allInputs[i].addEventListener('blur',validationTextInputs);
@@ -372,18 +384,16 @@ function validBtn(){
         flag = false;
         alerts[alerts.length-1].style.display = 'block';
     }
-    let flagRepeat = true;
+    return flag;
+}
+function validateReData(){
     for (let i = 0; i < allEmployees.length; i++){
         if (allEmployees[i].name.toUpperCase() == allInputs[0].value.toUpperCase()){
             alertRepeat.style.display = 'block';
-            flag = false;
-            flagRepeat = false;
+            return false;
         }
     }
-    if (flagRepeat == true){
-        alertRepeat.style.display = 'none';
-    }
-    return flag;
+    return true;
 }
 
 //============================ get gender ========================
